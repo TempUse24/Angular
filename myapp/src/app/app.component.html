@@ -1,0 +1,87 @@
+<body>
+  <div class="container" style="border: 3px solid navy">
+    <h2>Product Data</h2>
+    <p>Product Id: {{ productId }}</p>
+    <p>Product Description: {{ description }}</p>
+    <p>Instock: {{ available }}</p>
+    <!-- <p> Qty: {{quantity}}</p> -->
+
+    <p>
+      Enter order quantity:
+      <input
+        type="text"
+        name="orderquantity"
+        id=""
+        [(ngModel)]="orderqty"
+        #inputQty
+      />
+      {{ orderqty }}
+    </p>
+
+    <div [ngSwitch]="inputQty.value">
+      <span *ngSwitchCase="201">..Quantity Not Available</span>
+      <span *ngSwitchCase="200">..Exact Quantity Available</span>
+      <span *ngSwitchCase="199">..Full Quantity Available</span>
+      <span *ngSwitchDefault>Check your input..</span>
+    </div>
+
+    <!-- <p>Ordered quantity available: {{isorderQtyAvailable}}</p> -->
+    <p>
+      Delivery:
+      <span [style.background-color]="deliveryColor"
+        >&nbsp;&nbsp;&nbsp;&nbsp;</span
+      >
+    </p>
+
+    <!-- <div [innerHTML="isorderQtyAvailable"]></div> -->
+
+    <p>
+      <button class="placeOrder" (click)="printOrder(inputQty)">
+        PlaceOrder
+      </button>
+    </p>
+
+    <div *ngIf="quantity >= orderqty; else myTemplate">
+      Ordered Quantity Available
+    </div>
+    <ng-template #myTemplate>Ordered Quantity Not Available</ng-template>
+
+    <div>{{ orderDate | date : "dd/MMMM/yyyy" }}</div>
+
+    <div *ngFor="let product of products; index as i; even as isEven">
+      <span *ngIf="isEven; else myTemp" [style.background-color]="forEven">
+        {{ i }}
+        {{ product.productId }}
+        {{ product.description }}
+        {{ product.price }}
+      </span>
+      <ng-template #myTemp
+        ><span [style.background-color]="forOdd">
+          {{ i }}
+          {{ product.productId }}
+          {{ product.description }}
+          {{ product.price }}
+        </span></ng-template
+      >
+    </div>
+  </div>
+
+  <!-- <div id="colorForm" style="border: 2px solid brown;">
+  <div id="top" [style.background-color]="topColor" ><input type="radio" name="color" value="orange" ></div>
+  <div id="middle"><input type="radio" name="color" value="white"><img class="imgradio" src="flag_chakra.png" alt=""></div>
+  <div id="bottom" [style.background-color]="bottomColor" ><input type="radio" name="color" value="green"></div>
+</div> -->
+  <!-- [style.background-color]="bottomColor" -->
+  <div style="border: 2px solid violet; background-color: purple">
+    <app-color></app-color>
+  </div>
+  <div style="border: 2px solid purple; background-color: bisque">
+    <app-data></app-data>
+  </div>
+  <div>
+    <p>Indian Currency: {{ r | currency : "INR" }}</p>
+    <p>Percentage pipe: {{ p | percent }}</p>
+    <p>Decimal pipe: {{ d | number : "1.0-0" }}</p>
+  </div>
+  <app-formbuilder></app-formbuilder>
+</body>
